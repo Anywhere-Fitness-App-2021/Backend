@@ -1,0 +1,39 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Node/ Express / SQL Lite / Knex Backend",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon index.js",
+    "test": "cross-env DB_ENV=testing jest --watchAll --verbose --runInBand"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anywhere-Fitness-App-2021/Backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Anywhere-Fitness-App-2021/Backend/issues"
+  },
+  "homepage": "https://github.com/Anywhere-Fitness-App-2021/Backend#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "@types/jest": "^26.0.23",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "helmet": "^4.6.0",
+    "jest": "^26.6.3",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.95.6",
+    "knex-cleaner": "^1.3.1",
+    "sqlite3": "^5.0.2",
+    "supertest": "^6.1.3"
+  }
+}
