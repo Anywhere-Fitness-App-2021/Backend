@@ -25,7 +25,7 @@ async function updateClass(UpdatedClass){
         await db("Classes")
             .insert(classToAdd)
 
-            return getClassByClassId(classToAdd.ClassId)
+            return getClassByClassId(classToAdd.ClassId);
     
     
 }

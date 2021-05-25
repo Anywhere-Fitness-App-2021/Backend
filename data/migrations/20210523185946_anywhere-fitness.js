@@ -2,9 +2,11 @@ exports.up = function(knex){
     return knex.schema
     .createTable("Users", (tbl)=>{
         tbl.increments("Id")
+        tbl.integer("UserId").unique().notNullable().unsigned()
         tbl.string("Username").notNullable().unique()
         tbl.string("Password").notNullable()
         tbl.string("Role").notNullable()
+
     })
     .createTable("Classes", (tbl)=>{
         tbl.increments("Id")

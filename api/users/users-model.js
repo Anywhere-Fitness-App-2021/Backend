@@ -8,6 +8,36 @@ JOIN [CLASSES] AS C
 ON UC.Class_Id_One = C.Id
 */
 
+function getAllUsers(){
+    return db("Users");
+}
+
+function getUserById(UserId){
+    return db("Users").where('UserId', UserId);
+}
+
+async function createUser(UserIdToAdd){
+    await db("Users").insert(UserIdToAdd)
+
+    return getUserById(UserIdToAdd, UserId)
+}
+
+async function updateUser(UpdatedUser){
+    await db("Users")
+        .where("UserId", UpdatedUser.UserId)
+        .update(UpdatedUser)
+
+    return getUserById(UpdatedUser.UserId);
+}
+
+async function deleteUser(UserIdToRemove){
+    await db("Users")
+        .where("UserId", UserIdToRemove)
+        .del()
+
+    return getAllUsers();
+}
+
 function getUsersClasses(UserId){
 
     return db("UsersClassesIntermediary As UC")
@@ -18,5 +48,5 @@ function getUsersClasses(UserId){
 }
 
 module.exports = {
-    getUsersClasses
+    getUsersClasses, getAllUsers, getUserById, createUser, updateUser, deleteUser
 }
