@@ -11,17 +11,17 @@ CLASSES ENDPOINTS:
 
 Send GET request to /api/classes
 
-[GET] Class By ClassId
+[GET] Class By Id
 
-Send GET request to /api/classes/:ClassId , passing through ClassId
+Send GET request to /api/classes/:Id , passing through Id of the user
 
-[PUT] / Update Class By ClassId
+[PUT] / Update Class By Id
 
-Send PUT request to /api/classes/:ClassId , passing through Updated Class
+Send PUT request to /api/classes/:id , passing through Updated Class and Id
 
-Requires: -ClassId -Name
+Requires: -Id -Name
 
-Takes: -ClassId -Name -Type -StartTime -Duration -IntensityLevel -Location -Attendees -MaxClassSize
+Takes: -Id -Name -Type -StartTime -Duration -IntensityLevel -Location -Attendees -MaxClassSize
 
 [POST] New Class
 
@@ -30,3 +30,25 @@ Send POST request to /api/classes/ , passing through new class
 Requires: -ClassId -Name
 
 Takes: -ClassId -Name -Type -StartTime -Duration -IntensityLevel -Location -Attendees -MaxClassSize
+
+[DELETE] Class By Id
+
+Send DELETE request to /api/classes/:id , passing through id within parameters
+
+Requires: -Id within the parameters
+
+Takes: -Id within the parameters 
+
+/////////////////////////////////
+/////////////////////////////////
+/////////////////////////////////
+
+USERS ENDPOINTS:
+
+[GET] Users Classes By User Id
+
+Send GET request to /api/users/:id/classes
+
+Requires: -Id in Params
+
+Takes: -Id In Params

@@ -19,12 +19,12 @@ router.get("/", (req, res, next)=>{
 
 //[GET] Class By ClassId
 
-router.get("/:ClassId", (req, res, next)=>{
+router.get("/:id", (req, res, next)=>{
     
-const { ClassId } = req.params;
+const { id } = req.params;
 
-if(ClassId){
-    Classes.getClassByClassId(ClassId)
+if(id){
+    Classes.getById(id)
     .then((specificClass)=>{
         res.status(200).json(specificClass[0]);
     })
@@ -37,26 +37,24 @@ if(ClassId){
 
 })
 
-//[PUT] / Update Class By ClassId
+//[PUT] / Update Class By id
 
-router.put("/:ClassId", (req, res, next)=>{
+router.put("/:id", (req, res, next)=>{
 
     const updatedClass = req.body;
 
-    if(updatedClass.ClassId && updatedClass.Name){
-        if (typeof updatedClass.ClassId === "number"){
-            Classes.updateClass(updatedClass)
+    const { id } = req.params;
+
+    if(updatedClass.Name){
+        Classes.updateClass(updatedClass, id)
             .then((update)=>{
-                res.status(200).json(update);
+                res.status(200).json(update[0]);
             })
             .catch((err)=>{
                 res.status(500).json({message: err.message});
             })
-        } else {
-            res.status(406).json({message: "ClassId must be a number"});
-        }
     } else {
-        res.status(406).json({message: "ClassId and Name are required"});
+        res.status(406).json({message: "Id and Name are required"});
     }
     
 })
@@ -71,7 +69,7 @@ router.post("/", (req, res, next)=>{
         if (typeof newClass.ClassId === "number"){
             Classes.addClass(newClass)
             .then((newestClass)=>{
-                res.status(200).json(newestClass);
+                res.status(200).json(newestClass[0]);
             })
             .catch((err)=>{
                 res.status(500).json({message: err.message});
@@ -89,11 +87,11 @@ router.post("/", (req, res, next)=>{
 
 //[DELETE] Class By ClassId
 
-router.delete("/:ClassId", (req, res, next)=>{
+router.delete("/:id", (req, res, next)=>{
     
-    const { ClassId } = req.params;
+    const { id } = req.params;
 
-    Classes.deleteClass(ClassId)
+    Classes.deleteClass(id)
     .then((resolution)=>{
         res.status(200).json(resolution);
     })
