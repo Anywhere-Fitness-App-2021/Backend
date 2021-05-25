@@ -158,9 +158,3 @@ router.delete("/ClassId/:ClassId", (req, res, next)=>{
 })
 
 module.exports = router;
-
-
-
-
-
-module.exports = router;
