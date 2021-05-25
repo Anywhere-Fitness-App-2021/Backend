@@ -5,4 +5,4 @@ exports.seed = function(knex) {
     {User_Id: 2, Class_Id: 3},
     {User_Id: 2, Class_Id: 2},
   ])
-};
+}
