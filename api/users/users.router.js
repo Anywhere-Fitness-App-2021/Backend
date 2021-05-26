@@ -88,6 +88,7 @@ router.post('/login', Middleware.checkLoginPayload, Middleware.usernameExists, (
     Users.getUserById({Username: username})
         .then(([user]) => {
             if(user && bcrypt.compareSync(password, user.Password)) {
+                const token = makeToken(user);
                 res.status(200).json({
                     user: user, message: `Welcome, ${user.Username}`, token
                 })
