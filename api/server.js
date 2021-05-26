@@ -1,6 +1,7 @@
 const express = require("express");
 const usersRouter = require("./users/users.router");
 const classesRouter = require("./classes/classes-router");
+const restrict = require("./middleware/restricted");
 const cors = require("cors");
 const helmet = require("helmet");
 
@@ -10,7 +11,7 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 server.use(helmet());
-server.use("/api/users", usersRouter);
+server.use("/api/users", restrict, usersRouter);
 server.use("/api/classes", classesRouter);
 
 
