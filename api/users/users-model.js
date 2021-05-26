@@ -5,25 +5,37 @@ function getAllUsers(){
     return db("Users");
 }
 
-function getUserById(UserId){
-    return db("Users").where('UserId', UserId);
+function getUserByUserId(UserId){
+    return db("Users").where("UserId", UserId)
 }
 
-async function createUser(UserIdToAdd){
-    await db("Users").insert(UserIdToAdd)
-
-    return getUserById(UserIdToAdd, UserId)
+function getUserbyId(Id){
+    return db("Users").where("Id", Id)
 }
 
-async function updateUser(UpdatedUser){
+async function createUser(ClassId){
+    await db("Users").insert(ClassId)
+
+    return db("Users").where("id", newId).first();
+}
+
+async function updateUserbyUserId(UpdatedUser){
     await db("Users")
         .where("UserId", UpdatedUser.UserId)
         .update(UpdatedUser)
 
-    return getUserById(UpdatedUser.UserId);
+    return getUserByUserId(UpdatedUser.UserId);
 }
 
-async function deleteUser(UserIdToRemove){
+async function updateUserbyId(UpdatedUser, Id){
+    await db("Users")
+        .where("Id", Id)
+        .update(UpdatedUser)
+
+    return getUserbyId(Id);
+}
+
+async function deleteUserbyUserId(UserIdToRemove){
     await db("Users")
         .where("UserId", UserIdToRemove)
         .del()
@@ -32,13 +44,12 @@ async function deleteUser(UserIdToRemove){
 }
 
 
-/* GETTING A SPECIFIC USERS CLASSES 
-SELECT U.Id, U.Username, UC.Class_Id_One,UC.Class_Id_Two, C.Name FROM [UsersClassesIntermediary] AS UC
-JOIN [USERS] AS U
-ON UC.User_id = U.Id
-JOIN [CLASSES] AS C
-ON UC.Class_Id_One = C.Id
-*/
+async function deleteUserbyId(IdToRemove){
+    await db("Users")
+        .where("Id", IdToRemove)
+        .del()
+}
+
 
 function getUsersClasses(UserId){
 
@@ -50,5 +61,5 @@ function getUsersClasses(UserId){
 }
 
 module.exports = {
-    getAllUsers, getUserById, createUser, updateUser, deleteUser, getUsersClasses
+  getAllUsers, getUserByUserId, getUserbyId, createUser, updateUserbyUserId, updateUserbyId, deleteUserByUserId, deleteUserbyId, getUsersClasses
 }
