@@ -39,14 +39,13 @@ router.get("/:UserId", (req, res, next) => {
 })
 
 //[POST] Create User
-//Needs Auth Code if Instructor - Not yet added
-//Most likely needs another Post method to create a password
+
 
 router.post("/", (req, res, next)=>{
 
     const newUser = req.body;
 
-    if(newUser.UserId && newUser.Name){
+    if(newUser.UserId && newUser.Username){
         if (typeof newUser.UserId === "number"){
             Users.addUser(newUser)
             .then((newestUser)=>{
