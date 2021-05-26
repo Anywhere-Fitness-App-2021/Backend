@@ -20,13 +20,13 @@ router.get("/", (req, res, next) => {
     })
 })
 
-//[GET] User by ID
+//[GET] User by UserId
 
 router.get("/:UserId", (req, res, next) => {
     const {UserId} = req.params; 
 
     if(UserId){
-        Users.getUserById(req.params.UserId)
+        Users.getUserByUserId(req.params.UserId)
             .then(specificUser => {
                 res.status(200).json(specificUser)
             })
@@ -38,8 +38,26 @@ router.get("/:UserId", (req, res, next) => {
     }
 })
 
-//[POST] Create User
+//[GET] User by ID
 
+router.get(":/id", (req, res, next) => {
+    const { id } = req.params;
+
+    if(id){
+        Users.getUserbyId(id)
+            .then((user) => {
+                res.status(200).json(user[0]);
+            })
+            .catch((error) => {
+                res.status(500).json({message: error.message})
+            })
+    } else {
+        res.status(406).json({messages: "Id requried"})
+    }
+})
+
+//[POST] Create User
+//This shouldn't be used, use Register instead to create a user
 
 router.post("/", (req, res, next)=>{
 
@@ -47,7 +65,7 @@ router.post("/", (req, res, next)=>{
 
     if(newUser.UserId && newUser.Username){
         if (typeof newUser.UserId === "number"){
-            Users.addUser(newUser)
+            Users.createUser(newUser)
             .then((newestUser)=>{
                 res.status(200).json(newestUser);
             })
@@ -109,7 +127,7 @@ router.put("/:UserId", (req, res, next)=>{
 
     if(updatedUser.UserId && updatedUser.Username){
         if (typeof updatedUser.UserId === "number"){
-            Users.updateUser(updatedUser)
+            Users.updateUserbyUserId(updatedUser)
             .then((update)=>{
                 res.status(200).json(update);
             })
@@ -125,13 +143,33 @@ router.put("/:UserId", (req, res, next)=>{
     
 })
 
-//[DELETE] User By UserId
+//[PUT] Update User by Id
+
+router.put("/:id", (req, res, next) => {
+    const udpatedUser = req.body;
+
+    const { id } = req.params;
+
+    if(updatedUser.Username){
+        Users.updateUserbyId(updatedUser, id)
+            .then((update) => {
+                res.status(200).json(update[0]);
+            })
+            .catch((error) => {
+                res.status(500).json({messages: error.message});
+            })
+    } else {
+        res.status(406).json({message: "Id and Username are required"});
+    }
+})
+
+//[DELETE] Delete User By UserId
 
 router.delete("/:UserId", (req, res, next)=>{
     
     const { UserId } = req.params;
 
-    Users.deleteuser(UserId)
+    Users.deleteUserbyUserId(UserId)
     .then((resolution)=>{
         res.status(200).json(resolution);
     })
@@ -139,6 +177,20 @@ router.delete("/:UserId", (req, res, next)=>{
         res.status(500).json({message: err.message});
     })
 
+})
+
+//[DELETE] Delete User by Id
+
+router.delete(":/id", (req, res, next) => {
+    const { id } = req.params;
+
+    Users.deleteUserbyId(id)
+    .then((resolution) => {
+        res.status(200).json(resolution);
+    })
+    .catch((error) => {
+        res.status(500).json({message: error.message});
+    })
 })
 
 //[GET] Users Classes
