@@ -5,6 +5,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { jwtSecret } = require("./../../config/secret");
+const dbConfig = require("../../db-config");
 
 //ENDPOINTS
 
@@ -84,39 +85,38 @@ router.post("/", (req, res, next)=>{
 })
 
 //[POST] Register as a User
-router.post('/register', Middleware.checkRegisterPayload, Middleware.usernameUnique, (req, res) => {
+router.post('/register', Middleware.checkRegisterPayload, Middleware.usernameUnique, async (req, res, next) => {
     const credentials = req.body;
+
     const rounds = process.env.BCRYPT_ROUNDS || 8;
     const hash = bcrypt.hashSync(credentials.Password, rounds);
     credentials.Password = hash;
-
-    Users.createUser(credentials)
-        .then(user => {
-            res.status(201).json(user)
-        })
-        .catch(error => {
-            res.status(500).json({message: error.message})
-        })
+    
+    try {
+        await db("Users").insert(credentials)
+        const user = await db("Users").where("Username", credentials.Username).first()
+        const newUser = {id: user.Id, username: user.Username, password: user.Password}
+        res.status(201).json(newUser)
+    } catch(error) {
+        next(error)
+    }
 })
 
 //[POST] Login as a User
-router.post('/login', Middleware.checkLoginPayload, Middleware.usernameExists, (req,res) => {
+router.post('/login', Middleware.checkLoginPayload, Middleware.usernameExists,  async (req,res, next) => {
     const { username, password} = req.body;
 
-    Users.getUserById({Username: username})
-        .then(([user]) => {
-            if(user && bcrypt.compareSync(password, user.Password)) {
-                const token = makeToken(user);
-                res.status(200).json({
-                    user: user, message: `Welcome, ${user.Username}`, token
-                })
-            } else {
-                res.status(401).json({message: "invalid credentials"})
-            }
-        })
-        .catch(error => {
-            res.status(500).json({message: error.message})
-        })
+    try {
+        const user = await db("Users").where('Username', username).first()
+        if(user && bcrypt.compareSync(password, user.Password)){
+            const token = makeToken(user)
+            res.status(200).json({message: `Welcome ${username}`, token})
+        } else {
+            res.status(401).json({message: 'Invalid credentials'})
+        }
+    } catch (error) {
+        next(error)
+    }
 })
 
 //[PUT] Update User By UserId
@@ -146,7 +146,7 @@ router.put("/:UserId", (req, res, next)=>{
 //[PUT] Update User by Id
 
 router.put("/:id", (req, res, next) => {
-    const udpatedUser = req.body;
+    const updatedUser = req.body;
 
     const { id } = req.params;
 

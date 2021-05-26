@@ -20,10 +20,14 @@ function getUserbyId(Id){
     return db("Users").where("Id", Id)
 }
 
-async function createUser(ClassId){
-    await db("Users").insert(ClassId)
+function getByUser(user) {
+    return db("Users").where(user).orderby("Id");
+}
 
-    return db("Users").where("id", newId).first();
+async function createUser(UserIdToAdd){
+    await db("Users").insert(UserIdToAdd)
+
+    return getUserById(UserIdToAdd, UserId)
 }
 
 async function updateUserbyUserId(UpdatedUser){

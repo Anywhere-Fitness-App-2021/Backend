@@ -21,7 +21,7 @@ const checkLoginPayload = (req, res, next) => {
 
 const usernameUnique = async (req, res, next) => {
     try {
-        const rows = await Users.getByUserId({ Username: req.body.Username })
+        const rows = await Users.getByUser({ Username: req.body.Username })
         if(!rows.length) {
             next()
         } else {
@@ -34,7 +34,7 @@ const usernameUnique = async (req, res, next) => {
 
 const usernameExists = async (req, res, next) => {
     try {
-        const rows = await Users.getByUserId({ UserName: req.body.userName })
+        const rows = await Users.getByUser({ Username: req.body.Username })
         if(rows.length) {
             next()
         } else {
