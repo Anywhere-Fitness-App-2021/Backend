@@ -9,7 +9,7 @@ function getUserByUserId(UserId){
     return db("Users").where("UserId", UserId)
 }
 
-function getUserbyId(Id){
+function getUserById(Id){
     return db("Users").where("Id", Id)
 }
 
@@ -19,7 +19,7 @@ async function createUser(ClassId){
     return db("Users").where("id", newId).first();
 }
 
-async function updateUserbyUserId(UpdatedUser){
+async function updateUserByUserId(UpdatedUser){
     await db("Users")
         .where("UserId", UpdatedUser.UserId)
         .update(UpdatedUser)
@@ -27,15 +27,15 @@ async function updateUserbyUserId(UpdatedUser){
     return getUserByUserId(UpdatedUser.UserId);
 }
 
-async function updateUserbyId(UpdatedUser, Id){
+async function updateUserById(UpdatedUser, Id){
     await db("Users")
         .where("Id", Id)
         .update(UpdatedUser)
 
-    return getUserbyId(Id);
+    return getUserById(Id);
 }
 
-async function deleteUserbyUserId(UserIdToRemove){
+async function deleteUserByUserId(UserIdToRemove){
     await db("Users")
         .where("UserId", UserIdToRemove)
         .del()
@@ -44,7 +44,7 @@ async function deleteUserbyUserId(UserIdToRemove){
 }
 
 
-async function deleteUserbyId(IdToRemove){
+async function deleteUserById(IdToRemove){
     await db("Users")
         .where("Id", IdToRemove)
         .del()
@@ -61,5 +61,5 @@ function getUsersClasses(UserId){
 }
 
 module.exports = {
-  getAllUsers, getUserByUserId, getUserbyId, createUser, updateUserbyUserId, updateUserbyId, deleteUserByUserId, deleteUserbyId, getUsersClasses
+  getAllUsers, getUserByUserId, getUserById, createUser, updateUserByUserId, updateUserById, deleteUserByUserId, deleteUserById, getUsersClasses
 }

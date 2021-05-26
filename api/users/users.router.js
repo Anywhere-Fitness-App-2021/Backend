@@ -38,13 +38,13 @@ router.get("/:UserId", (req, res, next) => {
     }
 })
 
-//[GET] User by ID
+//[GET] User By ID
 
 router.get(":/id", (req, res, next) => {
     const { id } = req.params;
 
     if(id){
-        Users.getUserbyId(id)
+        Users.getUserById(id)
             .then((user) => {
                 res.status(200).json(user[0]);
             })
@@ -127,7 +127,7 @@ router.put("/:UserId", (req, res, next)=>{
 
     if(updatedUser.UserId && updatedUser.Username){
         if (typeof updatedUser.UserId === "number"){
-            Users.updateUserbyUserId(updatedUser)
+            Users.updateUserByUserId(updatedUser)
             .then((update)=>{
                 res.status(200).json(update);
             })
@@ -143,7 +143,7 @@ router.put("/:UserId", (req, res, next)=>{
     
 })
 
-//[PUT] Update User by Id
+//[PUT] Update User By Id
 
 router.put("/:id", (req, res, next) => {
     const udpatedUser = req.body;
@@ -151,7 +151,7 @@ router.put("/:id", (req, res, next) => {
     const { id } = req.params;
 
     if(updatedUser.Username){
-        Users.updateUserbyId(updatedUser, id)
+        Users.updateUserById(updatedUser, id)
             .then((update) => {
                 res.status(200).json(update[0]);
             })
@@ -169,7 +169,7 @@ router.delete("/:UserId", (req, res, next)=>{
     
     const { UserId } = req.params;
 
-    Users.deleteUserbyUserId(UserId)
+    Users.deleteUserByUserId(UserId)
     .then((resolution)=>{
         res.status(200).json(resolution);
     })
@@ -179,12 +179,12 @@ router.delete("/:UserId", (req, res, next)=>{
 
 })
 
-//[DELETE] Delete User by Id
+//[DELETE] Delete User By Id
 
 router.delete(":/id", (req, res, next) => {
     const { id } = req.params;
 
-    Users.deleteUserbyId(id)
+    Users.deleteUserById(id)
     .then((resolution) => {
         res.status(200).json(resolution);
     })
